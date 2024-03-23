@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.database import SessionLocal, engine
 from src.auth.routes import router as UserRouter
+from src.admin.routes import router as AdminRouter
 
 app = FastAPI()
 origins = [
@@ -22,6 +23,7 @@ app.add_middleware(
 
 
 app.include_router(UserRouter, prefix="/user", tags=["user"])
+app.include_router(AdminRouter, prefix="/admin", tags=["admin"])
 
 
 @app.get("/")
