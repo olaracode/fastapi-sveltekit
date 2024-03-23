@@ -3,8 +3,19 @@ import json
 
 r = redis.Redis(host='cache', port=6379)
 
+EXPIRATION_TIME = 3600  # 1 hour | 3600 seconds
 
-def get_or_set_cache(key, fnc, pydantic_model):
+
+def get_cache(key, pydantic_model):
+    cached = r.get(key)
+    if cached:
+        if pydantic_model:
+            return pydantic_model(**json.loads(cached))
+        return json.loads(cached)
+    return None
+
+
+def get_or_set_cache(key, fnc, pydantic_model=None, ttl=EXPIRATION_TIME):
     cached = r.get(key)
     if cached:
         if pydantic_model:
@@ -12,7 +23,7 @@ def get_or_set_cache(key, fnc, pydantic_model):
         return json.loads(cached)
     result = fnc()
     if pydantic_model:
-        r.set(key, json.dumps(pydantic_model.from_orm(result).dict()))
+        r.setex(key, ttl, json.dumps(pydantic_model.from_orm(result).dict()))
     else:
-        r.set(key, json.dumps(result))
+        r.setex(key, ttl, json.dumps(result))
     return result
