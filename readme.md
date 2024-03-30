@@ -9,31 +9,39 @@ Fullstack app container using Fastapi, Svelte, Postgres, Redis, and Docker.
 
 ## Installation
 
-First clone the repository
+### 1. First clone the repository
 
 ```bash
 git clone https://github.com/olaracode/fast-svelte-docker
 ```
 
-Then set up your environment variables, for easier maintainability we use a single .env file for all services.
+### 2. Then set up your environment variables, for easier maintainability we use a single .env file for all services.
 
 ```bash
 cp .env.example .env
 ```
 
-To create the secret keys for KEY and REFRESH_KEY
+### 3. Fill .env
 
-```bash
-openssl rand -hex 32
-```
+- 1. Set the `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` to your desired values.
 
-Then you can start the containers
+- 2. Generate a KEY and REFRESH_KEY
+
+  Both the `KEY` and `REFRESH_KEY` are used to sign the JWT tokens, you can generate them using the following command.
+
+  We use the simple `openssl` command to generate the keys.
+
+  ```bash
+  openssl rand -hex 32
+  ```
+
+### 4. Build the containers
 
 ```bash
 docker-compose up --build
 ```
 
-With the containers running you need to run:
+### 5. With the containers running you need to run:
 
 - DB Migrations
 
