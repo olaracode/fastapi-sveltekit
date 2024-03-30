@@ -1,35 +1,64 @@
-# Fastapi + PSQL + Redit Container
+# Fastapi[psql + redis] & ⚡ Svelte[Skeleton-UI] Docker container 🐳
 
-## Description
+Fullstack app container using Fastapi, Svelte, Postgres, Redis, and Docker.
 
-# Commands
+## Requirements
+
+- Docker
+- Docker-compose
+
+## Installation
+
+First clone the repository
+
+```bash
+git clone https://github.com/olaracode/fast-svelte-docker
+```
+
+Then set up your environment variables, for easier maintainability we use a single .env file for all services.
+
+```bash
+cp .env.example .env
+```
+
+To create the secret keys for KEY and REFRESH_KEY
+
+```bash
+openssl rand -hex 32
+```
+
+Then you can start the containers
 
 ```bash
 docker-compose up --build
 ```
 
-## migrate database
+With the containers running you need to run:
+
+- DB Migrations
+
+  ```bash
+  docker-compose exec web alembic revision --autogenerate
+  ```
+
+- DB Upgrade
+
+  ```bash
+  docker-compose exec web alembic upgrade head
+  ```
+
+# Misc docker commans
+
+## Start & build containers
 
 ```bash
-docker-compose exec web alembic revision --autogenerate
-```
-
-## upgrade database
-
-```bash
-docker-compose exec web alembic upgrade head
+docker-compose up --build
 ```
 
 ## access to the docker terminal
 
 ```bash
 docker-compose exec <service_name> bash
-```
-
-## Create a ssl key(KEY | REFRESH_KEY)
-
-```bash
-openssl rand -hex 32
 ```
 
 ## Down all containers and remove volumes

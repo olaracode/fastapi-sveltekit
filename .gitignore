@@ -1,2 +1,15 @@
-.env
 __pycache__
+redis.md
+node_modules
+
+# Environment
+.env
+.env.client
+.env.server
+
+.DS_Store
+build
+/client/.svelte-kit
+package
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
